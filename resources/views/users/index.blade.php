@@ -20,7 +20,11 @@
 					</div>
 					<div class="w-1/2 flex justify-end space-x-3 items-center">
 						<div><a href="{{ route('users.show') }}/{{ Crypt::encrypt($user->id) }}" class="text-blue-500 hover:underline font-semibold">Edit</a></div>
-						@if ($user->id != auth()->user()->id)
+						@if (
+							$user->id != auth()->user()->id &&
+							auth()->user()->roles->id == 1 &&
+							$user->roles->id != 1
+						)
 							<div class="text-gray-300">|</div>
 							<div>
 								<form action="{{ route('users.delete') }}/{{ Crypt::encrypt($user->id) }}" method="POST">

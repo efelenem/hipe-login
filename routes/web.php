@@ -25,9 +25,12 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 
 Route::middleware(['auth'])->group(function () {
 	Route::get('/home', [LoginController::class, 'home'])->name('home');
-	Route::get('/users', [UserController::class, 'index'])->name('users');
-	Route::post('/create', [UserController::class, 'create'])->name('users.create');
-	Route::get('/show/{user?}', [UserController::class, 'show'])->name('users.show');
-	Route::post('/update/{user?}', [UserController::class, 'update'])->name('users.update');
-	Route::post('/delete/{user?}', [UserController::class, 'delete'])->name('users.delete');
+	
+	Route::middleware(['role'])->group(function () {
+		Route::get('/users', [UserController::class, 'index'])->name('users');
+		Route::post('/create', [UserController::class, 'create'])->name('users.create');
+		Route::get('/show/{user?}', [UserController::class, 'show'])->name('users.show');
+		Route::post('/update/{user?}', [UserController::class, 'update'])->name('users.update');
+		Route::post('/delete/{user?}', [UserController::class, 'delete'])->name('users.delete');
+	});
 });
